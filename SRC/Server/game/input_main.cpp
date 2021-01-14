@@ -3661,9 +3661,7 @@ void CInputMain::SetLanguage(LPCHARACTER ch, const void* c_pData)
 
 	db_clientdesc->DBPacket(HEADER_GD_CHANGE_LANGUAGE, ch->GetDesc()->GetHandle(), &packet, sizeof(TPacketGDChangeLanguage));
 
-	BYTE bLang;
-	bLang = p->blang;
-	DBManager::instance().DirectQuery("UPDATE account.account SET lang = '%d' WHERE id = '%d'", bLang, ch->GetAID());
+	DBManager::instance().DirectQuery("UPDATE account.account SET lang = '%u' WHERE id = '%u'", p->blang, ch->GetAID());
 	int x = ch->GetX(), y = ch->GetY();
 	ch->WarpSet(x, y);
 	ch->Stop();
