@@ -12,10 +12,11 @@ int g_iUseLocale = 0;
 
 void locale_add(BYTE blang, const char **strings)
 {
-	LocaleStringMapType::const_iterator iter = localeString[blang].find( strings[0] );
-	if( iter == localeString[blang].end() )
+	LocaleStringMapType& localeMap = localeString[blang];
+	LocaleStringMapType::const_iterator iter = localeMap.find( strings[0] );
+	if( iter == localeMap.end() )
 	{
-		localeString[blang].insert( std::make_pair( strings[0], strings[1] ) );
+		localeMap.insert( std::make_pair( strings[0], strings[1] ) );
 	}
 }
 
@@ -29,9 +30,10 @@ const char * locale_find(BYTE blang, const char *string)
 
 	if (blang >= MAX_LANGUAGES)
 	{
-		iter = localeString[DEFAULT_LANGUAGE].find( string );
+		LocaleStringMapType& localeMap = localeString[DEFAULT_LANGUAGE];
+		iter = localeMap.find( string );
 
-		if( iter == localeString[DEFAULT_LANGUAGE].end() )
+		if( iter == localeMap.end() )
 		{
 			static char s_line[1024] = "@0949";
 			strlcpy(s_line + 5, string, sizeof(s_line) - 5);
@@ -44,9 +46,10 @@ const char * locale_find(BYTE blang, const char *string)
 	}
 	else
 	{
-		iter = localeString[blang].find( string );
+		LocaleStringMapType& localeMap = localeString[blang];
+		iter = localeMap.find( string );
 
-		if( iter == localeString[blang].end() )
+		if( iter == localeMap.end() )
 		{
 			static char s_line[1024] = "@0949";
 			strlcpy(s_line + 5, string, sizeof(s_line) - 5);
